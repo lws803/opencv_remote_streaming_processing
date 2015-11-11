@@ -19,4 +19,4 @@ class VideoCamera(object):
         # so we must encode it into JPEG in order to correctly display the
         # video stream.
         ret, jpeg = cv2.imencode('.jpg', image)
-        return jpeg.tobytes()
+        return jpeg.tostring()
