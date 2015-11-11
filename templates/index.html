@@ -1,9 +1,48 @@
 <html>
-  <head>
+
+<head>
     <title>Video Streaming Demonstration</title>
-  </head>
-  <body>
-    <h1>Video Streaming Demonstration</h1>
-    <img id="bg" src="{{ url_for('video_feed') }}">
-  </body>
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="/css/core.css">
+    <script type="text/javascript" src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
+    <script type="text/javascript">
+    $(function() {
+        $("#btnFwd").click(function() {
+            alert($(this).attr("id"));
+            // alert("")
+            $.get("/forward", function(data) {
+                alert(data);
+            });
+        });
+    });
+    </script>
+</head>
+
+<body>
+    <section class="section-white">
+        <div class="container">
+            <div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
+                <!-- Wrapper for slides -->
+                <div class="carousel-inner">
+                    <div class="item active">
+                        <img src="http://placehold.it/800x400" alt="...">
+                        <!-- <img id="bg" src="{{ url_for('video_feed') }}"> -->
+                        <div class="carousel-caption">
+                            <h2>Camera</h2>
+                        </div>
+                    </div>
+                </div>
+                <!-- Controls -->
+            </div>
+            <div id="divButton" class="">
+                <button type="button" id="btnFwd" class="btn btn-primary">Forward</button>
+                <button type="button" id="btnBwd" class="btn btn-primary">Backward</button>
+                <button type="button" id="btnLeft" class="btn btn-primary">Turn Left</button>
+                <button type="button" id="btnRht" class="btn btn-primary">Turn Right</button>
+                <button type="button" id="btnStp" class="btn btn-primary">Stop</button>
+            </div>
+        </div>
+    </section>
+</body>
+
 </html>
