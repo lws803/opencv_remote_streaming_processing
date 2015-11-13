@@ -1,20 +1,60 @@
 #!/usr/bin/env python
+
+
+###############################################################################
+#  
+#   Project : Video Streaming with Flask 
+#   Author  : Peter Guan, Xu Guo
+#   Date    : 11/11/2015  
+#   
+#   Description:
+#   Modified to support streaming out with webcams, and not just raw JPEGs.
+#   Most of the code credits to Miguel Grinberg.
+#   Credits : http://blog.miguelgrinberg.com/post/video-streaming-with-flask
+#             http://www.chioka.in/
+#   
 #
-# Project: Video Streaming with Flask
-# Author: Log0 <im [dot] ckieric [at] gmail [dot] com>
-# Date: 2014/12/21
-# Website: http://www.chioka.in/
-# Description:
-# Modified to support streaming out with webcams, and not just raw JPEGs.
-# Most of the code credits to Miguel Grinberg, except that I made a small tweak. Thanks!
-# Credits: http://blog.miguelgrinberg.com/post/video-streaming-with-flask
-#
-# Usage:
-# 1. Install Python dependencies: cv2, flask. (wish that pip install works like a charm)
-# 2. Run "python main.py".
-# 3. Navigate the browser to the local webpage.
+###############################################################################
+from __future__ import print_function
 from flask import Flask, render_template, Response, send_from_directory
 from camera import VideoCamera
+import smbus
+import datetime
+import time
+
+# for RPI version 1, use "bus = smbus.SMBus(0)"
+xbus = smbus.SMBus(1)
+
+# This is the address we setup in the Arduino Program
+address = 0x04
+flag = 0
+
+serverCmd = {'forward':1,
+			'backward':2,
+			'turnleft':3,
+			'turnright':4,
+			'stop':5
+}
+
+def writeNumber( value):
+    global flag
+    try:
+        xbus.write_byte(address, value)
+    except IOError:
+        subprocess.call('i2cdetect','-y','1')
+        flag = 1
+    return -1
+	
+	
+def readNumber( ):
+    try:
+        num = xbus.read_byte(address )
+    except IOError:
+        subprocess.call('i2cdetect','-y','1')
+        flag = 1
+        return -1
+    return num
+
 
 app = Flask(__name__, static_url_path='')
 
@@ -39,8 +79,15 @@ def gen(camera):
 @app.route('/forward')
 def forward_world():
     # do some operation for the cart
-    return 'forward World!'
-
+	#writeNumber(serverCmd['forward'])
+	writeNumber(serverCmd.forward)
+	response=readNumber():
+	if response is not None:
+		return true
+	else
+		return false
+		
+		
 @app.route('/video_feed')
 def video_feed():
     return Response(gen(VideoCamera()),
