@@ -94,6 +94,15 @@ def forward_world():
         return True
     return False
 
+@app.route('/forward')
+def get_data():
+    # do some operation for the cart
+        # writeNumber(serverCmd['forward'])
+    writeNumber(serverCmd.request)
+    response = readNumber()
+    if response is not None:
+        return True
+    return False
 
 @app.route('/video_feed')
 def video_feed():
