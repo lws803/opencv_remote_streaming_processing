@@ -33,8 +33,10 @@ serverCmd = {'forward': 1,
              'backward': 2,
              'turnleft': 3,
              'turnright': 4,
-             'stop': 5
+             'stop': 5,
+             'request': 6
              }
+
 
 
 def writeNumber(value):
@@ -87,7 +89,7 @@ def forward_world():
     # do some operation for the cart
         # writeNumber(serverCmd['forward'])
     writeNumber(serverCmd.forward)
-    response = readNumber():
+    response = readNumber()
     if response is not None:
         return True
     return False
@@ -99,4 +101,4 @@ def video_feed():
                     mimetype='multipart/x-mixed-replace; boundary=frame')
 
 if __name__ == '__main__':
-    app.run(host='10.1.15.97', debug=True)
+    app.run(host='10.1.0.233', debug=True)
