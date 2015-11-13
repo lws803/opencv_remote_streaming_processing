@@ -16,14 +16,15 @@
 #
 ###############################################################################
 from __future__ import print_function
-from flask import Flask, render_template, Response, send_from_directory
-from camera import VideoCamera
-import smbus
+from flask import Flask, render_template, Response, send_from_directory, make_response, request, current_app
+# import smbus
 import datetime
 import time
+from functools import update_wrapper
+from datetime import timedelta
 
 # for RPI version 1, use "bus = smbus.SMBus(0)"
-# xbus = smbus.SMBus(1)
+xbus = smbus.SMBus(1)
 
 # This is the address we setup in the Arduino Program
 address = 0x04
@@ -37,6 +38,47 @@ serverCmd = {'forward': 1,
              'request': 6
              }
 
+
+def crossdomain(origin=None, methods=None, headers=None,
+                max_age=21600, attach_to_all=True,
+                automatic_options=True):
+    if methods is not None:
+        methods = ', '.join(sorted(x.upper() for x in methods))
+    if headers is not None and not isinstance(headers, basestring):
+        headers = ', '.join(x.upper() for x in headers)
+    if not isinstance(origin, basestring):
+        origin = ', '.join(origin)
+    if isinstance(max_age, timedelta):
+        max_age = max_age.total_seconds()
+
+    def get_methods():
+        if methods is not None:
+            return methods
+
+        options_resp = current_app.make_default_options_response()
+        return options_resp.headers['allow']
+
+    def decorator(f):
+        def wrapped_function(*args, **kwargs):
+            if automatic_options and request.method == 'OPTIONS':
+                resp = current_app.make_default_options_response()
+            else:
+                resp = make_response(f(*args, **kwargs))
+            if not attach_to_all and request.method != 'OPTIONS':
+                return resp
+
+            h = resp.headers
+
+            h['Access-Control-Allow-Origin'] = origin
+            h['Access-Control-Allow-Methods'] = get_methods()
+            h['Access-Control-Max-Age'] = str(max_age)
+            if headers is not None:
+                h['Access-Control-Allow-Headers'] = headers
+            return resp
+
+        f.provide_automatic_options = False
+        return update_wrapper(wrapped_function, f)
+    return decorator
 
 
 def writeNumber(value):
@@ -64,7 +106,7 @@ app = Flask(__name__, static_url_path='')
 
 @app.route('/')
 def index():
-    return render_template('index.html')
+    return "Hello world"
 
 
 @app.route('/css/<path:path>')
@@ -85,17 +127,18 @@ def gen(camera):
 
 
 @app.route('/forward')
+@crossdomain(origin='*')
 def forward_world():
     # do some operation for the cart
-    # writeNumber(serverCmd['forward'])
+        # writeNumber(serverCmd['forward'])
+    # writeNumber(serverCmd.forward)
+    # response = readNumber()
+    # if response is not None:
+    #     return True
+    # return False
     print("request start")
-    #writeNumber(serverCmd.forward)
-    #response = readNumber()
-    #if response is not None:
-    #    print("response is not none")
-    #    return True
-    #print("response is none")
-    #return False
+    return "ok"
+
 
 @app.route('/getdata')
 def get_data():
@@ -107,11 +150,7 @@ def get_data():
         return True
     return False
 
-@app.route('/video_feed')
-def video_feed():
-    return Response(gen(VideoCamera()),
-                    mimetype='multipart/x-mixed-replace; boundary=frame')
 
 if __name__ == '__main__':
-    app.run(host='10.1.0.233', debug=True)
-    # app.run(host='0.0.0.0', debug=True)
+    app.run(host='10.1.0.233', port=5001, debug=True)
+    # app.run(host='0.0.0.0', port=5001, debug=True)

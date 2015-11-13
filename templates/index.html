@@ -10,7 +10,7 @@
         $("#btnFwd").click(function() {
             alert($(this).attr("id"));
             // alert("")
-            $.get("/forward", function(data) {
+            $.get("http://localhost:5001/forward", function(data) {
                 alert(data);
             });
         });
