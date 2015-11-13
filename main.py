@@ -87,12 +87,15 @@ def gen(camera):
 @app.route('/forward')
 def forward_world():
     # do some operation for the cart
-        # writeNumber(serverCmd['forward'])
-    writeNumber(serverCmd.forward)
-    response = readNumber()
-    if response is not None:
-        return True
-    return False
+    # writeNumber(serverCmd['forward'])
+    print("request start")
+    #writeNumber(serverCmd.forward)
+    #response = readNumber()
+    #if response is not None:
+    #    print("response is not none")
+    #    return True
+    #print("response is none")
+    #return False
 
 
 @app.route('/video_feed')
