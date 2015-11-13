@@ -17,7 +17,7 @@
 ###############################################################################
 from __future__ import print_function
 from flask import Flask, render_template, Response, send_from_directory, make_response, request, current_app
-# import smbus
+import smbus
 import datetime
 import time
 from functools import update_wrapper
@@ -144,11 +144,12 @@ def forward_world():
 def get_data():
     # do some operation for the cart
         # writeNumber(serverCmd['forward'])
-    writeNumber(serverCmd.request)
+    writeNumber(serverCmd["request"])
     response = readNumber()
     if response is not None:
-        return True
-    return False
+        print(response)
+        return "True"
+    return "False"
 
 
 if __name__ == '__main__':
