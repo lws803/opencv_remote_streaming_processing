@@ -2,17 +2,17 @@
 
 
 ###############################################################################
-#  
-#   Project : Video Streaming with Flask 
+#
+#   Project : Video Streaming with Flask
 #   Author  : Peter Guan, Xu Guo
-#   Date    : 11/11/2015  
-#   
+#   Date    : 11/11/2015
+#
 #   Description:
 #   Modified to support streaming out with webcams, and not just raw JPEGs.
 #   Most of the code credits to Miguel Grinberg.
 #   Credits : http://blog.miguelgrinberg.com/post/video-streaming-with-flask
 #             http://www.chioka.in/
-#   
+#
 #
 ###############################################################################
 from __future__ import print_function
@@ -29,28 +29,29 @@ xbus = smbus.SMBus(1)
 address = 0x04
 flag = 0
 
-serverCmd = {'forward':1,
-			'backward':2,
-			'turnleft':3,
-			'turnright':4,
-			'stop':5
-}
+serverCmd = {'forward': 1,
+             'backward': 2,
+             'turnleft': 3,
+             'turnright': 4,
+             'stop': 5
+             }
 
-def writeNumber( value):
+
+def writeNumber(value):
     global flag
     try:
         xbus.write_byte(address, value)
     except IOError:
-        subprocess.call('i2cdetect','-y','1')
+        subprocess.call('i2cdetect', '-y', '1')
         flag = 1
     return -1
-	
-	
-def readNumber( ):
+
+
+def readNumber():
     try:
-        num = xbus.read_byte(address )
+        num = xbus.read_byte(address)
     except IOError:
-        subprocess.call('i2cdetect','-y','1')
+        subprocess.call('i2cdetect', '-y', '1')
         flag = 1
         return -1
     return num
@@ -58,17 +59,21 @@ def readNumber( ):
 
 app = Flask(__name__, static_url_path='')
 
+
 @app.route('/')
 def index():
     return render_template('index.html')
+
 
 @app.route('/css/<path:path>')
 def send_js(path):
     return send_from_directory('css', path)
 
+
 @app.route('/index2')
 def index2():
     return render_template('index2.html')
+
 
 def gen(camera):
     while True:
@@ -76,18 +81,18 @@ def gen(camera):
         yield (b'--frame\r\n'
                b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n\r\n')
 
+
 @app.route('/forward')
 def forward_world():
     # do some operation for the cart
-	#writeNumber(serverCmd['forward'])
-	writeNumber(serverCmd.forward)
-	response=readNumber():
-	if response is not None:
-		return true
-	else
-		return false
-		
-		
+        # writeNumber(serverCmd['forward'])
+    writeNumber(serverCmd.forward)
+    response = readNumber():
+    if response is not None:
+        return True
+    return False
+
+
 @app.route('/video_feed')
 def video_feed():
     return Response(gen(VideoCamera()),
