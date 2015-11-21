@@ -6,13 +6,85 @@
     <link rel="stylesheet" type="text/css" href="/css/core.css">
     <script type="text/javascript" src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
     <script type="text/javascript">
+    /**
+     * do ajax get request 
+     */
+    function doGet(url) {
+        $.get("http://127.0.0.1:5001/" + url, function(data) {
+            console.log(data);
+        });
+    }
     $(function() {
         $("#btnFwd").click(function() {
             alert($(this).attr("id"));
             // alert("")
-            $.get("http://localhost:5001/forward", function(data) {
+            $.get("http://127.0.0.1:5001/forward", function(data) {
                 alert(data);
             });
+        });
+
+        // 0 w startup 87
+        // 1 s stop 83
+        // 8 a tinyleft 65
+        // 9 d tinyright 68
+        // 3 q left 81
+        // 4 e right 69
+        // 5 up speedup 38
+        // 6 down speeddown 40 
+        // 7 r backward 82
+        var allowed = true;
+        var validCodes = [87, 83, 65, 68, 81, 69, 38, 40, 82];
+
+        $(document).keydown(function(event) {
+            if (validCodes.indexOf(event.keyCode) < 0) return;
+            if (event.repeat != undefined) {
+                allowed = !event.repeat;
+            }
+            if (!allowed) return;
+            allowed = false;
+            console.log(event.keyCode);
+
+            var key = event.keyCode;
+            switch (key) {
+                case 87:
+                    // start up
+                    doGet('startup')
+                    break;
+                case 83:
+                    doGet('stop');
+                    break;
+                case 65:
+                    doGet('tinyleft');
+                    break;
+
+                case 68:
+                    doGet('tinyright');
+                    break;
+                case 81:
+                    doGet('left');
+                    break;
+                case 69:
+                    doGet('right');
+                    break;
+                case 38:
+                    doGet('speedup');
+                    break;
+                case 40:
+                    doGet('speeddown');
+                    break;
+                case 82:
+                    doGet('backward');
+                    break;
+            }
+        });
+
+        $(document).keyup(function(e) {
+            if (validCodes.indexOf(event.keyCode) < 0) return;
+            allowed = true;
+            doGet('stop');
+        });
+        $(document).focus(function(e) {
+            allowed = true;
         });
     });
     </script>
@@ -25,8 +97,7 @@
                 <!-- Wrapper for slides -->
                 <div class="carousel-inner">
                     <div class="item active">
-                        <!--<img src="http://placehold.it/800x400" alt="...">-->
-                        <img id="bg" src="{{ url_for('video_feed') }}" />
+                        <img src="http://placehold.it/800x400" alt="...">
                         <div class="carousel-caption">
                             <h2>Camera</h2>
                         </div>
@@ -35,11 +106,12 @@
                 <!-- Controls -->
             </div>
             <div id="divButton" class="">
-                <button type="button" id="btnFwd" class="btn btn-primary">Forward<git/button>
-                <button type="button" id="btnBwd" class="btn btn-primary">Backward</button>
-                <button type="button" id="btnLeft" class="btn btn-primary">Turn Left</button>
-                <button type="button" id="btnRht" class="btn btn-primary">Turn Right</button>
-                <button type="button" id="btnStp" class="btn btn-primary">Stop</button>
+                <button type="button" id="btnFwd" class="btn btn-primary">Forward
+                    <git/button>
+                        <button type="button" id="btnBwd" class="btn btn-primary">Backward</button>
+                        <button type="button" id="btnLeft" class="btn btn-primary">Turn Left</button>
+                        <button type="button" id="btnRht" class="btn btn-primary">Turn Right</button>
+                        <button type="button" id="btnStp" class="btn btn-primary">Stop</button>
             </div>
         </div>
     </section>
