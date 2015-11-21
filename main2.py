@@ -106,7 +106,7 @@ app = Flask(__name__, static_url_path='')
 
 @app.route('/')
 def index():
-    return "Hello world"
+    return render_template('index.html')
 
 
 @app.route('/css/<path:path>')
@@ -126,32 +126,100 @@ def gen(camera):
                b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n\r\n')
 
 
-@app.route('/forward')
-@crossdomain(origin='*')
-def forward_world():
-    # do some operation for the cart
-        # writeNumber(serverCmd['forward'])
-    # writeNumber(serverCmd.forward)
-    # response = readNumber()
-    # if response is not None:
-    #     return True
-    # return False
-    print("request start")
-    return "ok"
-
-
-@app.route('/getdata')
-def get_data():
-    # do some operation for the cart
-        # writeNumber(serverCmd['forward'])
-    writeNumber(serverCmd["request"])
-    response = readNumber()
+def processRes(response):
     if response is not None:
         print(response)
         return "True"
     return "False"
 
 
+@app.route('/startup')
+@crossdomain(origin='*')
+def startup():
+    # TODO call 0
+    writeNumber(0)
+    response = readNumber()
+    return processRes(response)
+
+
+@app.route('/stop')
+@crossdomain(origin='*')
+def stop():
+    # TODO call 1
+    writeNumber(1)
+    response = readNumber()
+    return processRes(response)
+
+
+@app.route('/tinyleft')
+@crossdomain(origin='*')
+def tinyleft():
+    # TODO call 8
+    writeNumber(8)
+    response = readNumber()
+    return processRes(response)
+
+
+@app.route('/tinyright')
+@crossdomain(origin='*')
+def tinyright():
+    # TODO call 9
+    writeNumber(9)
+    response = readNumber()
+    return processRes(response)
+
+
+@app.route('/left')
+@crossdomain(origin='*')
+def left():
+    # TODO call 3
+    writeNumber(3)
+    response = readNumber()
+    return processRes(response)
+
+
+@app.route('/right')
+@crossdomain(origin='*')
+def right():
+    # TODO call 4
+    writeNumber(4)
+    response = readNumber()
+    return processRes(response)
+
+
+@app.route('/speedup')
+@crossdomain(origin='*')
+def speedup():
+    # TODO call 5
+    writeNumber(5)
+    response = readNumber()
+    return processRes(response)
+
+
+@app.route('/speeddown')
+@crossdomain(origin='*')
+def speeddown():
+    # TODO call 6
+    writeNumber(6)
+    response = readNumber()
+    return processRes(response)
+
+
+@app.route('/backward')
+@crossdomain(origin='*')
+def backward():
+    # TODO call 7
+    writeNumber(7)
+    response = readNumber()
+    return processRes(response)
+
+
+@app.route('/forward')
+@crossdomain(origin='*')
+def forward_world():
+    print("request start")
+    return "ok"
+
 if __name__ == '__main__':
-    app.run(host='10.1.0.233', port=5001, debug=True)
+    app.run(host='10.1.0.234', port=5001, debug=True)
     # app.run(host='0.0.0.0', port=5001, debug=True)
