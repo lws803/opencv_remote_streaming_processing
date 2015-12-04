@@ -1,0 +1,28 @@
+<html>
+
+<head>
+    <title>Video Streaming Demonstration</title>
+    <script type="text/javascript" src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
+    <script type="text/javascript">
+    $(function() {
+        // we can write code here after all the page loaded.
+        $("#btnGet").click(function() {
+            //when button click, do something.
+            $(this).val("New Value");
+            // $.get("http://127.0.0.1:5000/after", function(data) {
+            //     $("#lblInfo").html(data);
+            // });
+            $.get("http://localhost:5000/after", function(data) {
+                $("#lblInfo").html(data);
+            });
+        });
+    })
+    </script>
+</head>
+
+<body>
+    <input type="button" value="Test Button" id="btnGet" />
+    <label id="lblInfo">Before Request</label>
+</body>
+
+</html>
