@@ -26,8 +26,7 @@
     $(function() {
 
         $("#btnTmp").click(getTemp);
-
-        getTemp();
+        setInterval(getTemp, 3000);
         // 0 w startup 87
         // 1 s stop 83
         // 8 a tinyleft 65
@@ -98,7 +97,8 @@
 <body>
     <section class="section-white">
         <div class="container">
-            <div id="divtmp" style="font-size: 30px;">Room Temperature:0 C</div>
+            <div id="divtmp" style="font-size: 30px;display:inline">Room Temperature:0 C</div>
+            <button type="button" id="btnTmp" class="btn btn-primary">Update Temperature</button>
             <div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
                 <!-- Wrapper for slides -->
                 <div class="carousel-inner">
@@ -112,17 +112,12 @@
                 </div>
                 <!-- Controls -->
             </div>
-            <div id="divButton" class="">
-                <button type="button" id="btnFwd" class="btn btn-primary">Forward
-                    <git/button>
-                        <button type="button" id="btnBwd" class="btn btn-primary">Backward</button>
-                        <button type="button" id="btnLeft" class="btn btn-primary">Turn Left</button>
-                        <button type="button" id="btnRht" class="btn btn-primary">Turn Right</button>
-                        <button type="button" id="btnStp" class="btn btn-primary">Stop</button>
-                        <button type="button" id="btnTmp" class="btn btn-primary">Update Temperature</button>
-            </div>
         </div>
     </section>
+
+    <script type="text/javascript">
+        getTemp();
+    </script>
 </body>
 
 </html>
