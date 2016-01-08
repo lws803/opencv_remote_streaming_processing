@@ -28,6 +28,7 @@ xbus = smbus.SMBus(1)
 
 # This is the address we setup in the Arduino Program
 address = 0x04
+address_read = 0x68
 flag = 0
 
 serverCmd = {'forward': 1,
@@ -95,9 +96,11 @@ def readNumber():
     try:
         num = xbus.read_byte(address)
     except IOError:
-        subprocess.call('i2cdetect', '-y', '1')
+        # :subprocess.call('i2cdetect', '-y', '1')
+        print("io error")
         flag = 1
         return -1
+    print("num is {0}".format(num))
     return num
 
 
@@ -224,14 +227,21 @@ def get_temp():
     # do some operation for the cart
         # writeNumber(serverCmd['forward'])
     writeNumber(10)
-    response = readNumber()
-    if response is not None:
-        print("correct, data is {0}".format(response))
-        return True
-    print("error, data is {0}".format(response))
-    return False
+    #response = readNumber()
+    #if response is not None:
+    #    print("correct, data is {0}".format(response))
+    #    return True
+    #print("error, data is {0}".format(response))
+    #return False
 
 if __name__ == '__main__':
     # app.run(host='10.1.0.234', port=5001, debug=True)
-    get_temp()
-    # app.run(host='0.0.0.0', port=5001, debug=True)
+    #get_temp()
+    time.sleep(1)
+    #readNumber()
+    while True:
+        readNumber()
+        time.sleep(1) 
+     
+     
+     #app.run(host='0.0.0.0', port=5001, debug=True)
