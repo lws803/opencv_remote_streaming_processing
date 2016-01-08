@@ -234,5 +234,5 @@ def get_temp():
 
 
 if __name__ == '__main__':
-    # app.run(host='10.1.0.234', port=5001, debug=True)
-    app.run(host='0.0.0.0', port=5001, debug=True)
+    app.run(host='10.1.0.233', port=5001, debug=True)
+    # app.run(host='0.0.0.0', port=5001, debug=True)
