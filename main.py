@@ -34,9 +34,9 @@ serverCmd = {'forward': 1,
              'turnleft': 3,
              'turnright': 4,
              'stop': 5,
-             'request': 6
+             'request': 6,
+             'temp': 10
              }
-
 
 
 def writeNumber(value):
@@ -60,6 +60,18 @@ def readNumber():
 
 
 app = Flask(__name__, static_url_path='')
+
+
+def get_temp():
+    # do some operation for the cart
+        # writeNumber(serverCmd['forward'])
+    writeNumber(serverCmd["temp"])
+    response = readNumber()
+    if response is not None:
+        print("correct, data is {0}".format(response))
+        return True
+    print("error, data is {0}".format(response))
+    return False
 
 
 @app.route('/')
@@ -89,13 +101,14 @@ def forward_world():
     # do some operation for the cart
     # writeNumber(serverCmd['forward'])
     print("request start")
-    #writeNumber(serverCmd.forward)
+    # writeNumber(serverCmd.forward)
     #response = readNumber()
-    #if response is not None:
+    # if response is not None:
     #    print("response is not none")
     #    return True
     #print("response is none")
-    #return False
+    # return False
+
 
 @app.route('/getdata')
 def get_data():
@@ -107,11 +120,13 @@ def get_data():
         return True
     return False
 
+
 @app.route('/video_feed')
 def video_feed():
     return Response(gen(VideoCamera()),
                     mimetype='multipart/x-mixed-replace; boundary=frame')
 
 if __name__ == '__main__':
-    app.run(host='10.1.0.233', debug=True)
+    # app.run(host='10.1.0.233', debug=True)
     # app.run(host='0.0.0.0', debug=True)
+    get_temp();

@@ -220,6 +220,18 @@ def forward_world():
     print("request start")
     return "ok"
 
+def get_temp():
+    # do some operation for the cart
+        # writeNumber(serverCmd['forward'])
+    writeNumber(10)
+    response = readNumber()
+    if response is not None:
+        print("correct, data is {0}".format(response))
+        return True
+    print("error, data is {0}".format(response))
+    return False
+
 if __name__ == '__main__':
-    app.run(host='10.1.0.234', port=5001, debug=True)
+    # app.run(host='10.1.0.234', port=5001, debug=True)
+    get_temp()
     # app.run(host='0.0.0.0', port=5001, debug=True)
