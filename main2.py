@@ -223,25 +223,16 @@ def forward_world():
     print("request start")
     return "ok"
 
+@app.route('/temp')
+@crossdomain(origin='*')
 def get_temp():
-    # do some operation for the cart
-        # writeNumber(serverCmd['forward'])
-    writeNumber(10)
-    #response = readNumber()
-    #if response is not None:
-    #    print("correct, data is {0}".format(response))
-    #    return True
-    #print("error, data is {0}".format(response))
-    #return False
+    mpu = MPU6050(bus, address, "MPU6050")
+    mpu.read_all()
+    temp = mpu.read_temp()
+    print("temp is {0}".format(temp))
+    return temp
+
 
 if __name__ == '__main__':
     # app.run(host='10.1.0.234', port=5001, debug=True)
-    #get_temp()
-    time.sleep(1)
-    #readNumber()
-    while True:
-        readNumber()
-        time.sleep(1) 
-     
-     
-     #app.run(host='0.0.0.0', port=5001, debug=True)
+    app.run(host='0.0.0.0', port=5001, debug=True)

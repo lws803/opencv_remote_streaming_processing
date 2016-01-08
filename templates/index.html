@@ -9,18 +9,24 @@
     /**
      * do ajax get request 
      */
+    var address = "http://127.0.0.1:5001/"
     function doGet(url) {
-        $.get("http://127.0.0.1:5001/" + url, function(data) {
+        $.get(address + url, function(data) {
             console.log(data);
         });
     }
     $(function() {
-        $("#btnFwd").click(function() {
-            alert($(this).attr("id"));
-            // alert("")
-            $.get("http://127.0.0.1:5001/forward", function(data) {
-                alert(data);
-            });
+        // $("#btnFwd").click(function() {
+        //     alert($(this).attr("id"));
+        //     // alert("")
+        //     $.get("http://127.0.0.1:5001/forward", function(data) {
+        //         alert(data);
+        //     });
+        // });
+
+        $.get(address + 'temp', function(data) {
+            // console.log(data);
+            $('#divtmp').html(data);
         });
 
         // 0 w startup 87
@@ -93,6 +99,7 @@
 <body>
     <section class="section-white">
         <div class="container">
+            <div id="divtmp">0</div>
             <div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
                 <!-- Wrapper for slides -->
                 <div class="carousel-inner">
