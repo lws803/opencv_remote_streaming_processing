@@ -158,7 +158,7 @@ def stop():
 @crossdomain(origin='*')
 def tinyleft():
     # TODO call 8
-    writeNumber(8)
+    writeNumber(7)
     response = readNumber()
     return processRes(response)
 
@@ -167,7 +167,8 @@ def tinyleft():
 @crossdomain(origin='*')
 def tinyright():
     # TODO call 9
-    writeNumber(9)
+    print("tiny right")
+    writeNumber(8)
     response = readNumber()
     return processRes(response)
 
@@ -176,7 +177,7 @@ def tinyright():
 @crossdomain(origin='*')
 def left():
     # TODO call 3
-    writeNumber(3)
+    writeNumber(2)
     response = readNumber()
     return processRes(response)
 
@@ -185,7 +186,7 @@ def left():
 @crossdomain(origin='*')
 def right():
     # TODO call 4
-    writeNumber(4)
+    writeNumber(3)
     response = readNumber()
     return processRes(response)
 
@@ -194,7 +195,7 @@ def right():
 @crossdomain(origin='*')
 def speedup():
     # TODO call 5
-    writeNumber(5)
+    writeNumber(4)
     response = readNumber()
     return processRes(response)
 
@@ -203,7 +204,7 @@ def speedup():
 @crossdomain(origin='*')
 def speeddown():
     # TODO call 6
-    writeNumber(6)
+    writeNumber(5)
     response = readNumber()
     return processRes(response)
 
@@ -211,8 +212,8 @@ def speeddown():
 @app.route('/backward')
 @crossdomain(origin='*')
 def backward():
-    # TODO call 7
-    writeNumber(7)
+    # TODO call 6
+    writeNumber(6)
     response = readNumber()
     return processRes(response)
 
