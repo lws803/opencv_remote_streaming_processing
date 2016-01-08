@@ -22,13 +22,15 @@ import datetime
 import time
 from functools import update_wrapper
 from datetime import timedelta
+from mpu6050 import MPU6050
 
 # for RPI version 1, use "bus = smbus.SMBus(0)"
 xbus = smbus.SMBus(1)
+tmp_address = 0x68  # This is the address value read via the i2cdetect command
+bus = smbus.SMBus(1)  # or bus = smbus.SMBus(1) for Revision 2 boards
 
 # This is the address we setup in the Arduino Program
 address = 0x04
-address_read = 0x68
 flag = 0
 
 serverCmd = {'forward': 1,
@@ -227,11 +229,11 @@ def forward_world():
 @app.route('/temp')
 @crossdomain(origin='*')
 def get_temp():
-    mpu = MPU6050(bus, address, "MPU6050")
+    mpu = MPU6050(bus, tmp_address, "MPU6050")
     mpu.read_all()
     temp = mpu.read_temp()
     print("temp is {0}".format(temp))
-    return temp
+    return str(temp)
 
 
 if __name__ == '__main__':
