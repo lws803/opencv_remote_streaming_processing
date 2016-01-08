@@ -1,6 +1,6 @@
 import math
 
-import bitify.python.utils.i2cutils as I2CUtils
+import i2cutils as I2CUtils
 import smbus
 
 address = 0x68  # This is the address value read via the i2cdetect command
@@ -214,6 +214,7 @@ class MPU6050(object):
 
     def read_temp(self):
         '''Return the temperature'''
+        print self.scaled_temp
         return self.scaled_temp
 
     def read_pitch(self):
@@ -232,6 +233,7 @@ class MPU6050(object):
 
 if __name__ == '__main__':
     mpu = MPU6050(bus, address, "MPU6050")
+    print "temp is {0}".format(mpu.read_all())
     temp = mpu.read_temp()
-    print "temp is {0}".format(temp)
 
+    print "temp is {0}".format(temp)
