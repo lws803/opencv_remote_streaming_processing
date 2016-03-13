@@ -121,12 +121,12 @@ def get_data():
     return False
 
 
-@app.route('/video_feed')
+@app.route('/video_feed.mjpg')
 def video_feed():
     return Response(gen(VideoCamera()),
                     mimetype='multipart/x-mixed-replace; boundary=frame')
 
 if __name__ == '__main__':
-    app.run(host='10.1.0.233', debug=True)
+    app.run(host='192.168.1.8', debug=True)
     # app.run(host='0.0.0.0', debug=True)
     # get_temp();
