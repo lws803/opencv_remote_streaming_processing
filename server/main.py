@@ -18,7 +18,6 @@
 from __future__ import print_function
 from flask import Flask, render_template, Response, send_from_directory
 from camera import VideoCamera
-import smbus
 import datetime
 import time
 
