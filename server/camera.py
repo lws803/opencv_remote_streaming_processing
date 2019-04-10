@@ -9,12 +9,15 @@ class VideoCamera(object):
         # If you decide to use video.mp4, you must have this file in the folder
         # as the main.py.
         # self.video = cv2.VideoCapture('video.mp4')
+
     
     def __del__(self):
         self.video.release()
     
     def get_frame(self):
         success, image = self.video.read()
+        image = cv2.resize(image,None, fx=0.5, fy=0.5)
+
         # We are using Motion JPEG, but OpenCV defaults to capture raw images,
         # so we must encode it into JPEG in order to correctly display the
         # video stream.
