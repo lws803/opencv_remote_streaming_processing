@@ -2,7 +2,7 @@ import cv2
 import numpy as np
 import urllib
 
-stream=urllib.urlopen('http://@192.168.1.8:5000/video_feed.mjpg')
+stream=urllib.urlopen('http://10.68.132.133:5000/video_feed.mjpg')
 bytes=''
 while True:
     bytes+=stream.read(1024)
